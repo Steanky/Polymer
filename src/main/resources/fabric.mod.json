@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "polymer",
+  "version": "${version}",
+  "name": "Polymer",
+  "description": "A library mod that provides some useful shared functionality.",
+  "authors": [
+    "Steanky"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/polymer/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.steanky.polymer.Polymer"
+    ]
+  },
+  "mixins": [
+    "polymer.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
