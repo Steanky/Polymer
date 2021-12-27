@@ -15,17 +15,20 @@ import java.util.*;
  * package-private.</p>
  */
 abstract class AbstractConfigNode extends AbstractMap<String, ConfigElement> implements ConfigNode {
-    private final Map<String, ConfigElement> mappings;
+    final Map<String, ConfigElement> mappings;
 
     AbstractConfigNode(@NotNull Map<String, ConfigElement> mappings) {
         Validate.notNull(mappings);
 
-        for(Map.Entry<String, ConfigElement> entry : mappings.entrySet()) {
-            Validate.notNull(entry.getKey());
-            Validate.notNull(entry.getValue());
-        }
+        Validate.noNullElements(mappings.keySet());
+        Validate.noNullElements(mappings.values());
 
         this.mappings = mappings;
+    }
+
+    protected void validateKeyValuePair(@NotNull String key, @NotNull ConfigElement value) {
+        Validate.notNull(key);
+        Validate.notNull(value);
     }
 
     @Override
@@ -36,8 +39,7 @@ abstract class AbstractConfigNode extends AbstractMap<String, ConfigElement> imp
 
     @Override
     public ConfigElement put(@NotNull String key, @NotNull ConfigElement value) {
-        Validate.notNull(key);
-        Validate.notNull(value);
+        validateKeyValuePair(key, value);
         return mappings.put(key, value);
     }
 

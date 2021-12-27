@@ -3,9 +3,7 @@ package io.github.steanky.polymer.config.codec;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class CodecRegistry {
     public static final CodecRegistry INSTANCE = new CodecRegistry();
@@ -13,15 +11,17 @@ public final class CodecRegistry {
     private final Map<String, ConfigCodec> codecMap = new HashMap<>();
 
     //enforce singleton
-    private CodecRegistry() {}
+    private CodecRegistry() {
+        //register built-in codecs
+        List<ConfigCodec> defaultCodecs = List.of(new TomlCodec());
 
-    public void registerCodec(@NotNull ConfigCodec codec) {
-        Validate.notNull(codec);
+        for(ConfigCodec codec : defaultCodecs) {
+            registerCodecInternal(codec);
+        }
+    }
 
-        Set<String> codecNames;
-        Validate.isTrue(!(codecNames = codec.getNames()).isEmpty(), "codec did not supply any names");
-
-        for(String name : codecNames) {
+    private void registerCodecInternal(ConfigCodec codec) {
+        for(String name : codec.getNames()) {
             Validate.notNull(name, "codec name cannot be null");
 
             if(codecMap.containsKey(name)) {
@@ -32,6 +32,13 @@ public final class CodecRegistry {
                 codecMap.put(name, codec);
             }
         }
+    }
+
+    public void registerCodec(@NotNull ConfigCodec codec) {
+        Validate.notNull(codec);
+        Validate.isTrue(!(codec.getNames()).isEmpty(), "codec must supply at least one name");
+
+        registerCodecInternal(codec);
     }
 
     public ConfigCodec getCodec(@NotNull String name) {

@@ -10,12 +10,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ConfigElement {
     /**
-     * The null element. This object is singleton; however, code that wishes to check for null elements should check
-     * the ElementType rather than performing a reference comparison against this field.
-     */
-    ConfigElement NULL = new ConfigPrimitive(null);
-
-    /**
      * Converts this ConfigElement into a {@link ConfigNode}.
      * @return This element as a ConfigNode object
      * @throws IllegalStateException if this element is not a ConfigNode

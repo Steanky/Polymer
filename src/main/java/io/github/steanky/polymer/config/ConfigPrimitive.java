@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
  * chars.
  */
 public class ConfigPrimitive implements ConfigElement {
-    private final Object object;
-    private final ElementType type;
+    private Object object;
+    private ElementType type;
 
     /**
      * Creates a new ConfigPrimitive instance wrapping the provided {@link Object}. The object may only subclass one of
@@ -22,24 +22,27 @@ public class ConfigPrimitive implements ConfigElement {
      * not null
      */
     public ConfigPrimitive(@Nullable Object object) {
+        this.type = getType(object);
+        this.object = object;
+    }
+
+    private static ElementType getType(Object object) {
         if (object instanceof String) {
-            this.type = ElementType.STRING;
+            return ElementType.STRING;
         }
         else if (object instanceof Number) {
-            this.type = ElementType.NUMBER;
+            return ElementType.NUMBER;
         }
         else if (object instanceof Boolean) {
-            this.type = ElementType.BOOLEAN;
+            return ElementType.BOOLEAN;
         }
         else if (object == null) {
-            this.type = ElementType.NULL;
+            return ElementType.NULL;
         }
         else {
             throw new IllegalArgumentException("objects of type " + object.getClass().getName() +
                     "cannot be converted into a ConfigPrimitive");
         }
-
-        this.object = object;
     }
 
     private <T> T convert(ElementType elementType, Class<T> classType) {
@@ -76,5 +79,15 @@ public class ConfigPrimitive implements ConfigElement {
      */
     public @Nullable Object getObject() {
         return object;
+    }
+
+    /**
+     * Sets the object wrapped by this ConfigPrimitive.
+     * @param object the new object
+     * @throws IllegalArgumentException if the provided object is not a valid type
+     */
+    public void setObject(@Nullable Object object) {
+        this.type = getType(object);
+        this.object = object;
     }
 }

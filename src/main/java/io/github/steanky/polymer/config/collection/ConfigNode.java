@@ -2,8 +2,8 @@ package io.github.steanky.polymer.config.collection;
 
 import io.github.steanky.polymer.config.ConfigElement;
 import io.github.steanky.polymer.config.ElementType;
+import io.github.steanky.polymer.config.ConfigPrimitive;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -11,8 +11,8 @@ import java.util.*;
  * <p>Represents some arbitrary configuration data in a tree-like structure. ConfigNode objects are mutable data
  * structures based off of {@link Map}, but contain additional features that aid in traversing hierarchies.</p>
  *
- * <p>ConfigNode objects must not permit null keys or values. The absence of a value can be represented with
- * {@link ConfigElement#NULL}.</p>
+ * <p>ConfigNode objects must not permit null keys or values. The absence of a value can be represented with a
+ * {@link ConfigPrimitive} instance containing null.</p>
  */
 public interface ConfigNode extends ConfigElement, Map<String, ConfigElement> {
     /**

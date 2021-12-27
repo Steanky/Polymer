@@ -2,6 +2,7 @@ package io.github.steanky.polymer.config;
 
 import io.github.steanky.polymer.config.collection.ConfigList;
 import io.github.steanky.polymer.config.collection.ConfigNode;
+import io.github.steanky.polymer.config.collection.HashConfigNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ class BasicTreeBuilderTest {
     private final ConfigNode resultingElement;
 
     BasicTreeBuilderTest() {
-        BasicTreeBuilder builder = new BasicTreeBuilder((obj, deserialize) -> obj);
+        BasicTreeBuilder builder = BasicTreeBuilder.INSTANCE;
 
         Map<String, Object> root = new HashMap<>();
         Map<String, Object> subRoot = new HashMap<>();
@@ -63,7 +64,7 @@ class BasicTreeBuilderTest {
             subListNodes.add(subNode);
         }
 
-        resultingElement = builder.makeNode(root);
+        resultingElement = builder.makeNode(root, HashConfigNode::new);
     }
 
     @Test
